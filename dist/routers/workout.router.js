@@ -13,5 +13,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const workoutController = __importStar(require("../controllers/workout.controller"));
 exports.workoutRouter = express_1.default.Router();
-exports.workoutRouter.get('', workoutController.createWorkout);
+exports.workoutRouter.route('/:id')
+    .get(workoutController.getWorkoutById)
+    .patch(workoutController.updateWorkoutPartial)
+    .put(workoutController.updateWorkoutFull)
+    .delete(workoutController.deleteWorkout);
+exports.workoutRouter.route('')
+    .get(workoutController.getWorkouts)
+    .post(workoutController.createWorkout);
+// workoutRouter.get('/:id', workoutController.getWorkoutById);
+// workoutRouter.patch('/:id', workoutController.updateWorkoutPartial);
+// workoutRouter.put('/:id', workoutController.updateWorkoutFull);
+// workoutRouter.delete('/:id', workoutController.deleteWorkout);
 //# sourceMappingURL=workout.router.js.map

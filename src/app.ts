@@ -1,12 +1,12 @@
 import express from 'express';
 
+import { connect } from './db/mongoose';
 import { userRouter } from './routers/user.router';
 import { workoutRouter } from './routers/workout.router';
 
-// require('./db/mongoose');
-
 const app = express();
 app.use(express.json());
+connect();
 
 
 app.use('/users', userRouter);

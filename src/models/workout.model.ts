@@ -19,6 +19,10 @@ const workoutSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -32,5 +36,3 @@ const workoutSchema = new mongoose.Schema({
 });
 
 export const Workout = mongoose.model('Workout', workoutSchema);
-
-// module.exports = Workout;

@@ -23,6 +23,10 @@ const workoutSchema = new mongoose_1.default.Schema({
         type: Boolean,
         default: true,
     },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
     creator: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: 'User'
@@ -35,5 +39,4 @@ const workoutSchema = new mongoose_1.default.Schema({
     timestamps: true,
 });
 exports.Workout = mongoose_1.default.model('Workout', workoutSchema);
-// module.exports = Workout;
 //# sourceMappingURL=workout.model.js.map
