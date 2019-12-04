@@ -47,7 +47,26 @@ exports.createWorkout = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.updateWorkoutPartial = (req, res) => {
-    res.send('updated workout partial');
+    const id = req.params.id;
+    const body = req.body;
+    const updates = Object.keys(body);
+    const allowedUpdates = ['dateTime', 'location', 'type', 'joinLimit', 'visible'];
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+    if (!isValidOperation) {
+        return res.status(400).send();
+    }
+    try {
+        const workout = workout_model_1.Workout.findByIdAndUpdate(id, body, {
+            new: true
+        });
+        if (!workout) {
+            res.status(404).send();
+        }
+        res.send(workout);
+    }
+    catch (_a) {
+        res.status(400).send();
+    }
 };
 exports.updateWorkoutFull = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
@@ -62,6 +81,9 @@ exports.updateWorkoutFull = (req, res) => __awaiter(void 0, void 0, void 0, func
         }, {
             new: true
         });
+        if (!workout) {
+            res.status(404).send();
+        }
         res.send(workout);
     }
     catch (_d) {

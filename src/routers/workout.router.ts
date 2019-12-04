@@ -13,8 +13,3 @@ workoutRouter.route('/:id')
 workoutRouter.route('')
     .get(workoutController.getWorkouts)
     .post(workoutController.createWorkout);
-
-// workoutRouter.get('/:id', workoutController.getWorkoutById);
-// workoutRouter.patch('/:id', workoutController.updateWorkoutPartial);
-// workoutRouter.put('/:id', workoutController.updateWorkoutFull);
-// workoutRouter.delete('/:id', workoutController.deleteWorkout);

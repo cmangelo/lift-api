@@ -8,27 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = require("../models/user.model");
-exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = new user_model_1.User(req.body);
+const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield user.save();
-        const token = yield user.generateAuthToken();
-        res.status(201).send({ user, token });
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decoded = jsonwebtoken_1.default.verify(token, 'lift-api');
+        const user = yield user_model_1.User.findOne({ _id: decoded._id, 'tokens.token': token });
+        if (!user) {
+            throw new Error();
+        }
+        req.user = user;
+        req.token = token;
+        next();
     }
     catch (err) {
-        res.status(400).send(err);
+        res.status(401).send('Please authenticate');
     }
 });
-exports.loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const user = yield user_model_1.User.findByCredentials(req.body.email, req.body.password);
-        const token = yield user.generateAuthToken();
-        res.send({ user, token });
-    }
-    catch (_a) {
-        res.status(400).send();
-    }
-});
-//# sourceMappingURL=user.controller.js.map
+module.exports = auth;
+//# sourceMappingURL=auth.js.map
